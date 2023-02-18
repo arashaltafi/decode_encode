@@ -41,7 +41,8 @@ class SampleActivity1 : AppCompatActivity() {
                 tvCode.text = decodedText
                 Log.i(TAG, "decodedText => $decodedText")
             } else
-                Toast.makeText(this@SampleActivity1 , "please first encode" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SampleActivity1, "please first encode", Toast.LENGTH_SHORT)
+                    .show()
         }
 
     }
@@ -54,6 +55,26 @@ class SampleActivity1 : AppCompatActivity() {
     private fun decodeString(encodedText: String): String {
         val data = Base64.decode(encodedText, Base64.DEFAULT)
         return String(data, Charsets.UTF_8)
+    }
+
+    private fun phpCodes() {
+        /**
+        <?php
+
+        $input1 = base64_decode('QXJhc2ggQWx0YWZp');
+        $input_encoding1 = 'iso-2022-jp';
+        echo iconv($input_encoding1, 'UTF-8', $input1);
+
+        echo "<br/>";
+        echo "<br/>";
+        echo "<br/>";
+
+        $input2 = base64_encode('Arash Altafi');
+        $input_encoding2 = 'iso-2022-jp';
+        echo iconv($input_encoding2, 'UTF-8', $input2);
+
+        ?>
+         */
     }
 
     companion object {
