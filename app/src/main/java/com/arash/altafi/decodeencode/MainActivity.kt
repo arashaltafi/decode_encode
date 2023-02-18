@@ -1,99 +1,46 @@
 package com.arash.altafi.decodeencode
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import com.arash.altafi.decodeencode.databinding.ActivityMainBinding
+import com.arash.altafi.decodeencode.sample1.SampleActivity1
+import com.arash.altafi.decodeencode.sample2.SampleActivity2
+import com.arash.altafi.decodeencode.sample3.SampleActivity3
+import com.arash.altafi.decodeencode.sample4.SampleActivity4
 import se.simbio.encryption.Encryption
 import java.io.UnsupportedEncodingException
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-//        sample1()
-//        sample2()
-
-
-        // sample 3 => Don't Need Use Library
-        // In PHP => https://arashaltafi.ir/encode_decode/encode_docode.php
-        val text = "Arash Altafi"
-        Log.i("test123321", "encode => ${sample3Encode(text)}")
-        Log.i("test123321", "decode => ${sample3Decode(sample3Encode(text))}")
-
+        init()
     }
 
-    private fun sample1() {
-        val key = "YourKey"
-        val salt = "YourSalt"
-        val iv = ByteArray(16)
-        val encryption: Encryption = Encryption.getDefault(key, salt, iv)
-
-        val encrypted = encryption.encryptOrNull("Text to be encrypt")
-        Log.i("test123321", "encrypted => $encrypted")
-
-        val decrypted = encryption.decryptOrNull(encrypted)
-        Log.i("test123321", "decrypted => $decrypted")
-    }
-
-    private fun sample2() {
-        val iv = ByteArray(16)
-        val encryption = Encryption.Builder()
-            .setKeyLength(128)
-            .setKey("YourKey")
-            .setSalt("YourSalt")
-            .setIv(iv)
-            .setCharsetName("UTF8")
-            .setIterationCount(1)
-            .setDigestAlgorithm("SHA1")
-            .setBase64Mode(Base64.DEFAULT)
-            .setAlgorithm("AES/CBC/PKCS5Padding")
-            .setSecureRandomAlgorithm("SHA1PRNG")
-            .setSecretKeyType("PBKDF2WithHmacSHA1")
-            .build()
-    }
-
-    private fun sample3Encode(s: String): String {
-        var data = ByteArray(0)
-        try {
-            data = s.toByteArray(charset("UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        } finally {
-            return Base64.encodeToString(data, Base64.DEFAULT)
+    private fun init() = binding.apply {
+        btnSample1.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SampleActivity1::class.java))
         }
-    }
-
-    private fun sample3Decode(encoded: String): String {
-        val dataDec = Base64.decode(encoded, Base64.DEFAULT)
-        var decodedString = ""
-        try {
-            decodedString = String(dataDec, charset("UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        } finally {
-            return decodedString
+        btnSample2.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SampleActivity2::class.java))
         }
-    }
-
-    private fun sample3PhpCodes() {
-        /**
-        https://arashaltafi.ir/encode_decode/encode_docode.php
-
-        $input1 = base64_decode('QXJhc2ggQWx0YWZp');
-        $input_encoding1 = 'iso-2022-jp';
-        echo iconv($input_encoding1, 'UTF-8', $input1);
-
-        echo "<br/>";
-        echo "<br/>";
-        echo "<br/>";
-
-        $input2 = base64_encode('Arash Altafi');
-        $input_encoding2 = 'iso-2022-jp';
-        echo iconv($input_encoding2, 'UTF-8', $input2);
-
-         */
+        btnSample3.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SampleActivity3::class.java))
+        }
+        btnSample4.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SampleActivity4::class.java))
+        }
     }
 
 }
